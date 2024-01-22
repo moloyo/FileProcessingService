@@ -21,7 +21,7 @@ namespace FileProcessingService.Services
                     await Task.Delay(TimeUntilMidday(), stoppingToken);
 
                     fileService.ProcessFile();
-                    logger.LogWarning("Processing file");
+                    logger.LogWarning("Processing files");
                 }
             }
             catch (OperationCanceledException)
