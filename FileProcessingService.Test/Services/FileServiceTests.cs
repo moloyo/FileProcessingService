@@ -26,12 +26,7 @@ namespace FileProcessingService.Tests.Services
                 .AddInMemoryCollection(inMemorySettings)
                 .Build();
 
-            var fileName = "testFile.mp3";
-            var filePath = Path.Combine(_configuration["FileDirectory"], fileName);
-            var fileContent = "Mocked file content";
-
             Directory.CreateDirectory(_configuration["FileDirectory"]);
-            File.WriteAllText(filePath, fileContent);
 
             _invoxFileTranscriptionServiceMock = new Mock<IInvoxFileTranscriptionService>();
 
@@ -54,6 +49,12 @@ namespace FileProcessingService.Tests.Services
         public void ProcessFile_WithValidMp3Files_CallsTranscriptFileAsyncForEachFile()
         {
             // Arrange
+            var fileName = "testFile.mp3";
+            var filePath = Path.Combine(_configuration["FileDirectory"], fileName);
+            var fileContent = "Mocked file content";
+
+            File.WriteAllText(filePath, fileContent);
+
             _invoxFileTranscriptionServiceMock
                 .Setup(i => i.TranscriptFileAsync(It.IsAny<FileStream>(), It.IsAny<string>()))
                 .ReturnsAsync("Transcription");
@@ -70,6 +71,12 @@ namespace FileProcessingService.Tests.Services
         public void ProcessFile_WithValidMp3Files_CreatesTranscriptionForEachFile()
         {
             // Arrange
+            var fileName = "testFile.mp3";
+            var filePath = Path.Combine(_configuration["FileDirectory"], fileName);
+            var fileContent = "Mocked file content";
+
+            File.WriteAllText(filePath, fileContent);
+
             _invoxFileTranscriptionServiceMock
                 .Setup(i => i.TranscriptFileAsync(It.IsAny<FileStream>(), It.IsAny<string>()))
                 .ReturnsAsync("Transcription");
@@ -78,7 +85,7 @@ namespace FileProcessingService.Tests.Services
             _fileService.ProcessFile();
 
             // Assert
-            Assert.True(File.Exists($"{_configuration["FileDirectory"]}/testFile.txt"));
+            Assert.True(File.Exists(Path.Combine(_configuration["FileDirectory"], "testFile.txt")));
         }
 
         [Fact]

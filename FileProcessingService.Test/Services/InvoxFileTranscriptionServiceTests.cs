@@ -15,7 +15,7 @@ namespace FileProcessingService.Tests.Services
         {
             var inMemorySettings = new Dictionary<string, string> {
                 {"MaxNumberOfRetries", "3"},
-                {"FileDirectory", "./fake_directory"}
+                {"FileDirectory", "./InvoxFileTranscriptionService_directory"}
             };
 
             _configuration = new ConfigurationBuilder()
@@ -46,7 +46,7 @@ namespace FileProcessingService.Tests.Services
         {
             // Arrange
             _transcriptorService.Setup(m => m.GetTranscriptAsync()).ReturnsAsync("Mocked text");
-            using var stream = new FileStream($"{_configuration["FileDirectory"]}/test.mp4", FileMode.Create);
+            using var stream = new FileStream(Path.Combine(_configuration["FileDirectory"], "test.mp4"), FileMode.Create);
             var username = "user";
 
             // Act
@@ -61,7 +61,7 @@ namespace FileProcessingService.Tests.Services
         {
             // Arrange
             _transcriptorService.Setup(m => m.GetTranscriptAsync()).ThrowsAsync(new Exception());
-            using var stream = new FileStream($"{_configuration["FileDirectory"]}/test2.mp4", FileMode.Create);
+            using var stream = new FileStream(Path.Combine(_configuration["FileDirectory"], "test2.mp4"), FileMode.Create);
             var username = "user";
 
             // Act

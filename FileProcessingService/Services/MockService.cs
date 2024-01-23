@@ -8,14 +8,12 @@ namespace FileProcessingService.Services
         {
             await Task.Delay(1000);
 
-            var rand = new Random();
-
-            if (rand.Next(20) == 0)
+            if (Random.Shared.Next(20) == 0)
             {
                 throw new Exception();
             }
 
-            return MockTests[rand.Next(4) / 1];
+            return Random.Shared.GetItems(MockTests, 1).Single();
         }
 
         private string[] MockTests = [
